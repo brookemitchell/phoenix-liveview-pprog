@@ -89,4 +89,12 @@ defmodule PentoP2Web.Router do
     get "/users/confirm/:token", UserConfirmationController, :edit
     post "/users/confirm/:token", UserConfirmationController, :update
   end
+
+  scope "/", PentoP2Web do
+    pipe_through [:browser, :require_authenticated_user]
+
+    live_session :default, on_mount: PentoP2.UserAuthLive do
+      live "/guess", WrongLive
+    end
+  end
 end

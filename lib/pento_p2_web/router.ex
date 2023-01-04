@@ -93,8 +93,13 @@ defmodule PentoP2Web.Router do
   scope "/", PentoP2Web do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :default, on_mount: PentoP2.UserAuthLive do
-      live "/guess", WrongLive
+    live_session :default, on_mount: PentoP2Web.UserAuthLive do
+      live "/products", ProductLive.Index, :index
+      live "/products/new", ProductLive.Index, :new
+      live "/products/:id/edit", ProductLive.Index, :edit
+
+      live "/products/:id", ProductLive.Show, :show
+      live "/products/:id/show/edit", ProductLive.Show, :edit
     end
   end
 end

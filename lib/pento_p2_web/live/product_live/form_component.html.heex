@@ -18,7 +18,9 @@
     <%= error_tag f, :description %>
 
     <%= label f, :unit_price %>
-    <%= number_input f, :unit_price, step: "any" %>
+    <%= number_input f, :unit_price,
+      step: "any",
+      phx_debounce: "blur" %>
     <%= error_tag f, :unit_price %>
 
     <%= label f, :sku %>
@@ -33,9 +35,15 @@
       <%= submit "Save", phx_disable_with: "Saving..." %>
     </div>
 
-    <p class="alert alert-info" phx-click="lv:clear-flash" phx-value-key="info">
-      <%= live_flash(@flash, :info) %>
-    </p>
+    <% info_flash = live_flash(@flash, :info) %>
+    <%= if info_flash do %>
+      <p
+        class="alert alert-info"
+        phx-click="lv:clear-flash"
+        phx-value-key="info">
+        <%= info_flash %>
+      </p>
+    <% end %>
 
   </.form>
 
@@ -51,7 +59,6 @@
         phx-target="{ @myself }"
         phx-click="cancel-upload"
         phx-value-ref="{ @entry.ref }"
-
         >cancel</button>
     </p>
   <% end %>

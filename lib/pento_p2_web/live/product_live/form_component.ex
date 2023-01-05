@@ -54,9 +54,11 @@ defmodule PentoP2Web.ProductLive.FormComponent do
     save_product(socket, socket.assigns.action, product_params)
   end
 
-  defp product_params(socket, params) do
-    Map.put(params, "image_upload", socket.assigns.image_upload)
+  defp product_params(%{assigns: %{image_upload: socket_image_upload}} = _socket, params) do
+    Map.put(params, "image_upload", socket_image_upload)
   end
+
+  defp product_params(_socket, params), do: params
 
   defp save_product(socket, :edit, params) do
     result = Catalog.update_product(socket.assigns.product, product_params(socket, params))

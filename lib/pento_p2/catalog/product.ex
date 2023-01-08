@@ -9,10 +9,8 @@ defmodule PentoP2.Catalog.Product do
     field :sku, :integer
     field :unit_price, :float
     field :image_upload, :string
-
-    has_many :ratings, Rating
-
     timestamps()
+    has_many :ratings, Rating
   end
 
   @doc false

@@ -1,0 +1,24 @@
+<div>
+  <h2>Search</h2>
+
+  <.form
+    let={f}
+    for={@changeset}
+    id="product-search-form"
+    phx-change="validate"
+    phx-trigger-action={@trigger_submit}
+    phx-submit="save">
+
+    <%= label f, :sku %>
+    <%= text_input f, :sku, phx_debounce: "blur" %>
+    <%= error_tag f, :sku %>
+
+    <div>
+      <%= submit "Search", phx_disable_with: "Searching..." %>
+    </div>
+
+  </.form>
+
+
+
+</div>

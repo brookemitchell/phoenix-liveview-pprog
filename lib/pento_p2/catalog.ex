@@ -37,6 +37,8 @@ defmodule PentoP2.Catalog do
   """
   def get_product!(id), do: Repo.get!(Product, id)
 
+  def get_product_by_attr(attr), do: Repo.get_by!(Product, attr)
+
   @doc """
   Creates a product.
 

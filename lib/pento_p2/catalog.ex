@@ -103,4 +103,9 @@ defmodule PentoP2.Catalog do
   def change_product(%Product{} = product, attrs \\ %{}) do
     Product.changeset(product, attrs)
   end
+
+  def list_products_with_user_rating(user) do
+    Product.Query.with_user_rating(user)
+    |> Repo.all()
+  end
 end

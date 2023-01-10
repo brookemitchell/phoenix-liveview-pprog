@@ -102,6 +102,7 @@ defmodule PentoP2Web.Router do
       live "/products/:id/show/edit", ProductLive.Show, :edit
 
       live "/search", ProductSearchLive.Index, :index
+      live "/survey", SurveyLive, :index
     end
   end
 end

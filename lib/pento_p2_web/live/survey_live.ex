@@ -1,6 +1,8 @@
 defmodule PentoP2Web.SurveyLive do
   use PentoP2Web, :live_view
+  alias PentoP2.Catalog
   alias PentoP2Web.DemographicLive
+  alias PentoP2Web.RatingLive
   alias PentoP2.Survey
 
   def mount(_params, _session, socket) do
@@ -8,6 +10,7 @@ defmodule PentoP2Web.SurveyLive do
       :ok,
       socket
       |> assign_demographic
+      |> assign_products
     }
   end
 
@@ -23,5 +26,13 @@ defmodule PentoP2Web.SurveyLive do
 
   defp assign_demographic(%{assigns: %{current_user: current_user}} = socket) do
     assign(socket, :demographic, Survey.get_demographic_by_user(current_user))
+  end
+
+  defp assign_products(%{assigns: %{current_user: current_user}} = socket) do
+    assign(socket, :products, list_products(current_user))
+  end
+
+  defp list_products(user) do
+    Catalog.list_products_with_user_rating(user)
   end
 end

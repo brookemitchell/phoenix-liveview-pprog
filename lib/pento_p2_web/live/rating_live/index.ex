@@ -26,7 +26,6 @@ defmodule PentoP2Web.RatingLive.Index do
     ~H"""
     <%= for {product, index} <- Enum.with_index(@products) do %>
       <%= if rating = List.first(product.ratings) do %>
-        <h3> Show rating coming soon! </h3>
         <RatingLive.Show.stars rating={rating} product={product} />
       <% else %>
         <.live_component module={RatingLive.Form}

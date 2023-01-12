@@ -15,6 +15,16 @@
     <%= select f,:year_of_birth, Enum.reverse(1940..2020)  %>
     <%= error_tag f, :year_of_birth %>
 
+    <%= label f, :education_level %>
+    <%= select f, :education_level,  [
+      "bachelor's degree",
+      "graduate degree",
+      "high school",
+      "other",
+      "prefer not to say"
+    ]%>
+    <%= error_tag f, :education_level %>
+
     <%= hidden_input f, :user_id %>
 
     <%= submit "Save", phx_disable_with: "Saving" %>

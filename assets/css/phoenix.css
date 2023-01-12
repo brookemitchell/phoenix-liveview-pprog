@@ -99,3 +99,16 @@ header nav a {
     margin: 2rem 1rem;
   }
 }
+
+.hidden {
+  display: none;
+}
+
+ #button:not(.expanded)::after {
+  content: '- Contract';
+ }
+
+
+.expanded::after {
+  content: '+ Expand';
+}

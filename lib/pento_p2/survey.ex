@@ -202,4 +202,9 @@ defmodule PentoP2.Survey do
     Demographic.Query.for_user(user)
     |> Repo.one()
   end
+
+  def list_ratings_by_user(user) do
+    Rating.Query.for_user(user)
+    |> Repo.all()
+  end
 end

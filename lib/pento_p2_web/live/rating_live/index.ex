@@ -29,12 +29,11 @@ defmodule PentoP2Web.RatingLive.Index do
         <h3> Show rating coming soon! </h3>
         <RatingLive.Show.stars rating={rating} product={product} />
       <% else %>
-        <h3> Rating form coming soon! </h3>
-        <%!-- <.live_component module={RatingLive.Form}
+        <.live_component module={RatingLive.Form}
                          id={"rating-form-#{product.id}"}
                          product={product}
                          product_index={index}
-                         current_user={@current_user} /> --%>
+                         current_user={@current_user} />
       <% end %>
     <% end %>
     """

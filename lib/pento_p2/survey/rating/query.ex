@@ -9,7 +9,7 @@ defmodule PentoP2.Survey.Rating.Query do
     |> for_user(user)
   end
 
-  defp for_user(query, user) do
+  def for_user(query \\ base(), user) do
     query
     |> where([r], r.user_id == ^user.id)
   end

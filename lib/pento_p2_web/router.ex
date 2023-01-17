@@ -1,7 +1,7 @@
 defmodule PentoP2Web.Router do
   use PentoP2Web, :router
-
   import PentoP2Web.UserAuth
+  alias PentoP2Web.UserAuthLive
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -93,7 +93,7 @@ defmodule PentoP2Web.Router do
   scope "/", PentoP2Web do
     pipe_through [:browser, :require_authenticated_user]
 
-    live_session :default, on_mount: PentoP2Web.UserAuthLive do
+    live_session :default, on_mount: UserAuthLive do
       live "/products", ProductLive.Index, :index
       live "/products/new", ProductLive.Index, :new
       live "/products/:id/edit", ProductLive.Index, :edit
@@ -103,6 +103,8 @@ defmodule PentoP2Web.Router do
 
       live "/search", ProductSearchLive.Index, :index
       live "/survey", SurveyLive, :index
+
+      live "/admin-dashboard", Admin.DashboardLive, :index
     end
   end
 end

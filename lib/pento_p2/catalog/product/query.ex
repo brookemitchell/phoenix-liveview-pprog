@@ -90,7 +90,5 @@ defmodule PentoP2.Catalog.Product.Query do
     |> where([p, r, u, d], d.year_of_birth <= ^birth_year)
   end
 
-  defp apply_age_group_filter(query, _filter) do
-    query
-  end
+  defp apply_age_group_filter(query, _filter), do: query
 end

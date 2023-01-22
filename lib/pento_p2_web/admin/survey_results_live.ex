@@ -5,13 +5,22 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
   alias Contex.Plot
 
   def update(assigns, socket) do
-    {:ok,
-     socket
-     |> assign(assigns)
-     |> assign_products_with_average_ratings()
-     |> assign_dataset()
-     |> assign_chart()
-     |> assign_chart_svg()}
+    {
+      :ok,
+      socket
+      |> assign(assigns)
+      |> assign_age_group_filter()
+      # order important
+      |> assign_products_with_average_ratings()
+      |> assign_dataset()
+      |> assign_chart()
+      |> assign_chart_svg()
+    }
+  end
+
+  defp assign_age_group_filter(socket) do
+    socket
+    |> assign(:age_group_filter, "all")
   end
 
   def assign_chart(%{assigns: %{dataset: dataset}} = socket) do
@@ -38,12 +47,14 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
     )
   end
 
-  def assign_products_with_average_ratings(socket) do
+  def assign_products_with_average_ratings(
+        %{assigns: %{age_group_filter: age_group_filter}} = socket
+      ) do
     socket
-    # |> assign(
-    #   :products_with_average_ratings,
-    #   Catalog.products_with_average_ratings()
-    # )
+    |> assign(
+      :products_with_average_ratings,
+      Catalog.products_with_average_ratings(%{age_group_filter: age_group_filter})
+    )
   end
 
   defp make_bar_chart_dataset(data) do

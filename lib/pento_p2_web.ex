@@ -108,4 +108,16 @@ defmodule PentoP2Web do
   defmacro __using__(which) when is_atom(which) do
     apply(__MODULE__, which, [])
   end
+
+  defp chart_helpers() do
+    quote do
+      import PentoP2Web.BarChart
+    end
+  end
+
+  def chart_live do
+    quote do
+      unquote(chart_helpers())
+    end
+  end
 end

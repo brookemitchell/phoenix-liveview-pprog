@@ -1,8 +1,8 @@
 defmodule PentoP2Web.Admin.SurveyResultsLive do
   use PentoP2Web, :live_component
+  use PentoP2Web, :chart_live
 
   alias PentoP2.Catalog
-  alias Contex.Plot
 
   def update(assigns, socket) do
     {
@@ -29,8 +29,22 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
 
   def assign_chart_svg(%{assigns: %{chart: chart}} = socket) do
     socket
-    |> assign(:chart_svg, render_bar_chart(chart))
+    |> assign(
+      :chart_svg,
+      render_bar_chart(
+        chart,
+        title(),
+        subtitle(),
+        x_axis(),
+        y_axis()
+      )
+    )
   end
+
+  defp title, do: "Title ratings"
+  defp subtitle, do: "average star ratings per product"
+  defp x_axis, do: "products"
+  defp y_axis, do: "stars"
 
   def assign_dataset(
         %{
@@ -78,24 +92,4 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
       |> assign_chart_svg()
     }
   end
-
-  defp make_bar_chart_dataset(data) do
-    Contex.Dataset.new(data)
-  end
-
-  defp make_bar_chart(dataset) do
-    Contex.BarChart.new(dataset)
-  end
-
-  defp render_bar_chart(chart) do
-    Plot.new(500, 400, chart)
-    |> Plot.titles(title(), subtitle())
-    |> Plot.axis_labels(x_axis(), y_axis())
-    |> Plot.to_svg()
-  end
-
-  defp title, do: "Title ratings"
-  defp subtitle, do: "average star ratings per product"
-  defp x_axis, do: "products"
-  defp y_axis, do: "stars"
 end

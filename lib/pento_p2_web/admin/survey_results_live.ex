@@ -10,6 +10,7 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
       socket
       |> assign(assigns)
       |> assign_age_group_filter()
+      |> assign_gender_filter()
       |> assign_products_with_average_ratings()
       |> assign_dataset()
       |> assign_chart()
@@ -20,6 +21,11 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
   defp assign_age_group_filter(socket, age_group_filter \\ "all") do
     socket
     |> assign(:age_group_filter, age_group_filter)
+  end
+
+  defp assign_gender_filter(socket, gender_filter \\ "all") do
+    socket
+    |> assign(:gender_filter, gender_filter)
   end
 
   def assign_chart(%{assigns: %{dataset: dataset}} = socket) do
@@ -61,12 +67,15 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
   end
 
   def assign_products_with_average_ratings(
-        %{assigns: %{age_group_filter: age_group_filter}} = socket
+        %{assigns: %{age_group_filter: age_group_filter, gender_filter: gender_filter}} = socket
       ) do
     socket
     |> assign(
       :products_with_average_ratings,
-      get_products_with_average_ratings(%{age_group_filter: age_group_filter})
+      get_products_with_average_ratings(%{
+        age_group_filter: age_group_filter,
+        gender_filter: gender_filter
+      })
     )
   end
 
@@ -78,14 +87,15 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
   end
 
   def handle_event(
-        "age_group_filter",
-        %{"age_group_filter" => age_group_filter},
+        "group_filter",
+        %{"age_group_filter" => age_group_filter, "gender_filter" => gender_filter},
         socket
       ) do
     {
       :noreply,
       socket
       |> assign_age_group_filter(age_group_filter)
+      |> assign_gender_filter(gender_filter)
       |> assign_products_with_average_ratings()
       |> assign_dataset()
       |> assign_chart()

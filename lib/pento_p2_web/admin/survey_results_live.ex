@@ -11,21 +11,32 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
       |> assign(assigns)
       |> assign_age_group_filter()
       |> assign_gender_filter()
-      |> assign_products_with_average_ratings()
-      |> assign_dataset()
-      |> assign_chart()
-      |> assign_chart_svg()
+      |> update_chart()
     }
   end
 
-  defp assign_age_group_filter(socket, age_group_filter \\ "all") do
+  defp update_chart(socket) do
     socket
-    |> assign(:age_group_filter, age_group_filter)
+    |> assign_products_with_average_ratings()
+    |> assign_dataset()
+    |> assign_chart()
+    |> assign_chart_svg()
   end
 
-  defp assign_gender_filter(socket, gender_filter \\ "all") do
-    socket
-    |> assign(:gender_filter, gender_filter)
+  def assign_age_group_filter(%{assigns: %{age_group_filter: age_group_filter}} = socket) do
+    assign(socket, :age_group_filter, age_group_filter)
+  end
+
+  def assign_age_group_filter(socket) do
+    assign(socket, :age_group_filter, "all")
+  end
+
+  def assign_gender_filter(%{assigns: %{gender_filter: gender_filter}} = socket) do
+    assign(socket, :gender_filter, gender_filter)
+  end
+
+  def assign_gender_filter(socket) do
+    assign(socket, :gender_filter, "all")
   end
 
   def assign_chart(%{assigns: %{dataset: dataset}} = socket) do
@@ -88,18 +99,17 @@ defmodule PentoP2Web.Admin.SurveyResultsLive do
 
   def handle_event(
         "group_filter",
-        %{"age_group_filter" => age_group_filter, "gender_filter" => gender_filter},
+        %{
+          "age_group_filter" => age_group_filter,
+          "gender_filter" => gender_filter
+        },
         socket
       ) do
     {
       :noreply,
       socket
-      |> assign_age_group_filter(age_group_filter)
-      |> assign_gender_filter(gender_filter)
-      |> assign_products_with_average_ratings()
-      |> assign_dataset()
-      |> assign_chart()
-      |> assign_chart_svg()
+      |> assign(age_group_filter: age_group_filter, gender_filter: gender_filter)
+      |> update_chart()
     }
   end
 end

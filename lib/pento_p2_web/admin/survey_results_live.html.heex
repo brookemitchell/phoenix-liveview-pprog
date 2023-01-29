@@ -6,29 +6,32 @@
   phx-change="group_filter"
   phx-target={@myself} >
 
-  <label>Filter by age group:</label>
-  <select name="age_group_filter" id="age_group_filter">
-    <%= for age_group <- ["all", "18 and under", "18 to 25", "25 to 30", "35 and up"] do %>
-      <option
-        value={ age_group }
-        selected={ @age_group_filter == age_group  } >
-        <%= age_group %>
-      </option>
-    <% end %>
-  </select>
-
-  <label>Filter by gender:</label>
-  <select name="gender_filter" id="gender_filter">
-    <%= for gender <- ["all", "male", "female", "other", "prefer not to say"] do %>
-      <option
-        value={ gender }
-        selected={ @gender_filter == gender  } >
-        <%= gender %>
-      </option>
-    <% end %>
-  </select>
+  <section class="row">
+    <div class="column">
+      <label>Filter by age group:</label>
+      <select name="age_group_filter" id="age_group_filter">
+        <%= for age_group <- ["all", "18 and under", "18 to 25", "25 to 30", "35 and up"] do %>
+          <option
+            value={ age_group }
+            selected={ @age_group_filter == age_group  } >
+            <%= age_group %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+    <div class="column">
+      <label>Filter by gender:</label>
+      <select name="gender_filter" id="gender_filter">
+        <%= for gender <- ["all", "male", "female", "other", "prefer not to say"] do %>
+          <option
+            value={ gender }
+            selected={ @gender_filter == gender  } >
+            <%= gender %>
+          </option>
+        <% end %>
+      </select>
+    </div>
+  </section>
 </.form>
-
-
   <%= @chart_svg %>
 </div>

@@ -1,0 +1,21 @@
+<section class="row" >
+  <h1>Admin dashboard</h1>
+</section>
+<section class="row" >
+  <div class="column">
+      <.live_component
+        id={@survey_activity_component_id}
+        module={ PentoP2Web.SurveyActivityLive }
+      />
+    </div>
+    <div class="column">
+      <.live_component
+        id={@user_activity_component_id}
+        module={ PentoP2Web.UserActivityLive }
+        />
+    </div>
+  </section>
+<.live_component
+  id={@survey_results_component_id}
+  module={ PentoP2Web.Admin.SurveyResultsLive }
+/>

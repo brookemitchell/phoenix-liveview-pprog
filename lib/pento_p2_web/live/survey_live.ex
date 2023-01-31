@@ -1,8 +1,8 @@
 defmodule PentoP2Web.SurveyLive do
   use PentoP2Web, :live_view
-  alias PentoP2.Catalog
-  alias PentoP2Web.{DemographicLive, RatingLive, Endpoint}
-  alias PentoP2.Survey
+
+  alias PentoP2.{Catalog, Survey}
+  alias PentoP2Web.{DemographicLive, RatingLive, Endpoint, Presence}
 
   @survey_results_topic "survey_results"
 
@@ -13,6 +13,25 @@ defmodule PentoP2Web.SurveyLive do
       |> assign_demographic
       |> assign_products
     }
+  end
+
+  def handle_params(
+        _,
+        _,
+        %{
+          assigns: %{
+            current_user: current_user
+          }
+        } = socket
+      ) do
+    if connected?(socket) do
+      Presence.track_survey_user(
+        self(),
+        current_user.email
+      )
+    end
+
+    {:noreply, socket}
   end
 
   def handle_info({:created_demographic, demographic}, socket) do

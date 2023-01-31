@@ -4,9 +4,9 @@ defmodule PentoP2Web.Presence do
     pubsub_server: PentoP2.PubSub
 
   alias PentoP2Web.Presence
-  # alias Pento.Accounts
 
   @user_activity_topic "user_activity"
+  @survey_activity_topic "survey_activity"
 
   def track_user(pid, product, email) do
     Presence.track(
@@ -15,6 +15,30 @@ defmodule PentoP2Web.Presence do
       product.name,
       %{users: [%{email: email}]}
     )
+  end
+
+  def track_survey_user(pid, email) do
+    Presence.track(
+      pid,
+      @survey_activity_topic,
+      "survey",
+      %{
+        users: [
+          %{
+            email: email,
+            online_at: inspect(System.system_time(:second))
+          }
+        ]
+      }
+    )
+  end
+
+  def list_survey_users do
+    Presence.list(@survey_activity_topic)
+    |> get_in(["survey", :metas])
+    |> Kernel.||([])
+    |> Enum.map(&get_in(&1, [:users]))
+    |> List.flatten()
   end
 
   def list_users_and_products do

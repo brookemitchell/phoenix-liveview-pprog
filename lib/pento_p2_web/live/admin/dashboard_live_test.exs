@@ -97,4 +97,16 @@ defmodule PentoWeb.AdminDashboardLiveTest do
            |> element("#age_group_form")
            |> render_change(params) =~ "<title>2.0</title>"
   end
+
+  test "it updates to display newly created ratings", %{conn: conn, product: product} do
+    {:ok, view, html} = live(conn, "/admin-dashboard")
+    assert_html =~ "<title>2.5</title>"
+    user3 = user_fixture(@create_user3_attrs)
+    create_demo(user3)
+    create_rating(user3, product, 3)
+
+    send(view.pid, %{event: "rating_created"})
+    :timer.sleep(2)
+    assert_html =~ "<title>2.67</title>"
+  end
 end

@@ -56,7 +56,7 @@ defmodule PentoP2Web.ProductSearchLive.Index do
        |> push_redirect(to: "/products/#{id}")}
     else
       error ->
-        IO.inspect(error)
+        IO.puts(error)
 
         {:noreply,
          socket

@@ -35,6 +35,7 @@ defmodule PentoP2.MixProject do
     [
       {:bcrypt_elixir, "~> 3.0"},
       {:contex, "~> 0.4.0"},
+      {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
       {:ecto_sql, "~> 3.6"},
       {:esbuild, "~> 0.4", runtime: Mix.env() == :dev},
       {:floki, ">= 0.30.0", only: :test},

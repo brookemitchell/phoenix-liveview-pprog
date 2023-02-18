@@ -12,7 +12,15 @@ defmodule PentoP2.Game.Pentomino do
 
   def new(fields \\ []), do: __struct__(fields)
 
-  def rotate(%{rotation: degrees} = p), do: %{p | rotation: rem(degrees + 90, 360)}
+  def rotate(%{rotation: degrees} = p, opts \\ []) do
+    mult =
+      case Keyword.get(opts, :direction, :clockwise) do
+        :anti_clockwise -> -1
+        :clockwise -> 1
+      end
+
+    %{p | rotation: rem(degrees + 90 * mult, 360)}
+  end
 
   def flip(%{reflect: reflection} = p), do: %{p | reflected: not reflection}
 

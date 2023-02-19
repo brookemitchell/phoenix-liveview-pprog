@@ -1,6 +1,7 @@
 defmodule PentoP2Web.Router do
   use PentoP2Web, :router
   import PentoP2Web.UserAuth
+  alias PentoP2.Game
   alias PentoP2Web.UserAuthLive
 
   pipeline :browser do
@@ -105,6 +106,8 @@ defmodule PentoP2Web.Router do
       live "/survey", SurveyLive, :index
 
       live "/admin-dashboard", Admin.DashboardLive, :index
+
+      live "/game/:puzzle", Pento.GameLive
     end
   end
 end

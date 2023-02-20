@@ -1,21 +1,18 @@
 defmodule PentoP2Web.Pento.GameLive do
   @moduledoc false
   use PentoP2Web, :live_view
-  alias PentoP2Web.Pento.{Canvas, Shape}
+  alias PentoP2Web.Pento.{Board}
 
-  def mount(_params, _session, socket), do: {:ok, socket}
+  def mount(%{"puzzle" => puzzle}, _session, socket) do
+    {:ok, assign(socket, puzzle: puzzle)}
+  end
 
   def render(assigns) do
     ~H"""
       <section class="container">
         <h1>Welcome to Pento!</h1>
+        <.live_component module={Board} puzzle={@puzzle} id="game" />
       </section>
-      <Canvas.draw viewBox="0 0 200 70" >
-        <Shape.draw
-          fill="orange"
-          name="p"
-          points={ [ {3,2}, {4,3}, {3,3}, {4,2}, {3,4} ] } />
-      </Canvas.draw>
     """
   end
 end

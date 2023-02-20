@@ -9,8 +9,6 @@ defmodule PentoP2.Game.Board do
 
   def puzzles(), do: ~w[default wide widest medium tiny]
 
-  def new(palette, points), do: %__MODULE__{palette: palette(palette), points: points}
-
   def to_shape(board) do
     Shape.__struct__(color: :purple, name: :board, points: board.points)
   end
@@ -34,6 +32,8 @@ defmodule PentoP2.Game.Board do
   def active?(_board, _shape_name), do: false
 
   def active?(%{active_pento: %{name: _shape_name}}), do: true
+
+  def new(palette, points), do: %__MODULE__{palette: palette(palette), points: points}
 
   def new(:tiny), do: new(:small, rect(5, 3))
   def new(:widest), do: new(:small, rect(20, 3))

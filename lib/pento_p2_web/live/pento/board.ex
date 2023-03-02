@@ -13,12 +13,16 @@ defmodule PentoP2Web.Pento.Board do
      |> assign_shapes()}
   end
 
+  def handle_event("key", _, socket) do
+    {:noreply, socket}
+  end
+
   def assign_params(socket, id, puzzle) do
     assign(socket, id: id, puzzle: puzzle)
   end
 
   def assign_board(%{assigns: %{puzzle: puzzle}} = socket) do
-    active = Pentomino.new(name: :p, location: {3, 2})
+    active = Pentomino.new(name: :i, location: {3, 2})
 
     completed = [
       Pentomino.new(name: :u, rotation: 270, location: {1, 2}),
@@ -46,17 +50,15 @@ defmodule PentoP2Web.Pento.Board do
         <Canvas.draw viewBox="0 0 200 70" >
           <%= for shape <- @shapes do %>
             <Shape.draw
-            points={shape.points}
-            fill={color(shape.color, Board.active?(@board, shape.name))}
-            name={shape.name} />
+              points={shape.points}
+              fill={color(shape.color, Board.active?(@board, shape.name))}
+              name={shape.name} />
           <% end %>
         </Canvas.draw>
         <hr/>
         <Palette.draw
-        shape_names={@board.palette}
-        id="palette"
-        />
-
+          id="palette"
+          shape_names={@board.palette} />
       </div>
 
     """

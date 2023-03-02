@@ -39,8 +39,9 @@ defmodule PentoP2.Game.Board do
   def new(:widest), do: new(:small, rect(20, 3))
   def new(:wide), do: new(:small, rect(15, 4))
   def new(:medium), do: new(:small, rect(12, 5))
-  def new(:default), do: new(:small, rect(10, 6))
   def new(:skew), do: new(:small, skewed_rect(10, 6))
+  def new(:default), do: new(:small, rect(10, 6))
+  def new(_), do: new(:default)
 
   defp rect(x, y), do: for(x <- 1..x, y <- 1..y, do: {x, y})
   defp skewed_rect(x, y), do: for(x <- 1..x, y <- 1..y, do: {x + (y - 1), y})

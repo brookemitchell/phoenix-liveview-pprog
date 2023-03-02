@@ -13,8 +13,6 @@ defmodule PentoP2Web.Pento.Palette do
 
     assigns = assign(assigns, shapes: shapes)
 
-    IO.inspect(assigns)
-
     ~H"""
       <div id="palette">
         <Canvas.draw viewBox="0 0 500 125" >

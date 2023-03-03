@@ -5,7 +5,7 @@ defmodule PentoP2Web.Pento.Board do
   alias PentoP2.Game.{Board, Pentomino}
   import PentoP2Web.Pento.Colors
 
-  def update(%{puzzle: puzzle, id: id}, socket) do
+  def update(%{id: id, puzzle: puzzle}, socket) do
     {:ok,
      socket
      |> assign_params(id, puzzle)

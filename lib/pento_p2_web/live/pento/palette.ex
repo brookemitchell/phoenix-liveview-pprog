@@ -22,10 +22,7 @@ defmodule PentoP2Web.Pento.Palette do
               fill={ color(shape.color) }
               name={ shape.name }
             />
-
           <% end %>
-
-
         </Canvas.draw>
       </div>
     """

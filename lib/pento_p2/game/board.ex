@@ -36,13 +36,70 @@ defmodule PentoP2.Game.Board do
   def new(palette, points), do: %__MODULE__{palette: palette(palette), points: points}
 
   def new(:tiny), do: new(:small, rect(5, 3))
-  def new(:widest), do: new(:small, rect(20, 3))
-  def new(:wide), do: new(:small, rect(15, 4))
+  def new(:widest), do: new(:all, rect(20, 3))
+  def new(:wide), do: new(:all, rect(15, 4))
   def new(:small), do: new(:small, rect(8, 4))
-  def new(:medium), do: new(:small, rect(12, 5))
+  def new(:medium), do: new(:all, rect(12, 5))
   def new(:skew), do: new(:small, skewed_rect(10, 6))
-  def new(:default), do: new(:small, rect(10, 6))
+  def new(:default), do: new(:all, rect(10, 6))
   def new(_), do: new(:default)
+
+  def pick(board, board = _shape_name), do: board
+
+  def pick(%{active_pento: pento} = board, sname)
+      when not is_nil(pento) do
+    if pento.name == sname do
+      %{board | active_pento: nil}
+    else
+      board
+    end
+  end
+
+  def pick(board, shape_name) do
+    active =
+      board.completed_pentos
+      |> Enum.find(&(&1.name == shape_name))
+      |> Kernel.||(new_pento(board, shape_name))
+
+    completed = Enum.filter(board.completed_pentos, &(&1.name != shape_name))
+
+    %{board | active_pento: active, completed_pentos: completed}
+  end
+
+  defp new_pento(board, shape_name) do
+    Pentomino.new(name: shape_name, location: midpoints(board))
+  end
+
+  defp midpoints(board) do
+    {xs, ys} = Enum.unzip(board.points)
+    {midpoint(xs), midpoint(ys)}
+  end
+
+  defp midpoint(i), do: round(Enum.max(i) / 2.0)
+
+  def drop(%{active_pento: nil} = board), do: board
+
+  def drop(%{active_pento: pento} = board) do
+    board
+    |> Map.put(:active_pento, nil)
+    |> Map.put(:completed_pentos, [pento | board.completed_pentos])
+  end
+
+  def legal_drop?(%{active_pento: pento}) when is_nil(pento), do: false
+
+  def legal_drop?(%{active_pento: pento, points: board_points} = board) do
+    points_on_board =
+      Pentomino.to_shape(pento).points
+      |> Enum.all?(fn point -> point in board_points end)
+
+    no_overlapping_pentos = !Enum.any?(board.completed_pentos, &Pentomino.overlapping?(pento, &1))
+
+    points_on_board and no_overlapping_pentos
+  end
+
+  def legal_move?(%{active_pento: pento, points: points}) do
+    pento.location in points
+  end
 
   defp rect(x, y), do: for(x <- 1..x, y <- 1..y, do: {x, y})
   defp skewed_rect(x, y), do: for(x <- 1..x, y <- 1..y, do: {x + (y - 1), y})
